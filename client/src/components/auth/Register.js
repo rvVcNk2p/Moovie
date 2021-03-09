@@ -1,46 +1,89 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert";
+import PropTypes from "prop-types";
 
-const Register = () => {
+const Register = ({ setAlert }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: ''
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
   });
 
   const { name, email, password, password2 } = formData;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
-      console.log('Password do not match!');
+      // console.log("Password do not match");
+      setAlert("Password do not match!", "danger");
     } else {
       console.log();
     }
   };
   return (
     <Fragment>
-      <h1 className='large text-primary'>Sign up</h1>
-      <p className='lead'>
-        <i className='fas fa-user' /> Creat Your Accout
+      <h1 className="large text-primary">Sign up</h1>
+      <p className="lead">
+        <i className="fas fa-user" /> Creat Your Accout
       </p>
-      <form className='form' action='creat-profile.html'>
-        <div className='form-group'>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
+        <div className="form-group">
           <input
-            type='text'
-            palaceholder='Name'
-            name='name'
+            type="text"
+            placeholder="Name"
+            name="name"
             value={name}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
+        <div className="form-group">
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={(e) => onChange(e)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={(e) => onChange(e)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Password [Again]"
+            name="password2"
+            value={password2}
+            onChange={(e) => onChange(e)}
+            required
+          />
+        </div>
+        <input
+          type="submit"
+          className="btn btn-primary"
+          value="Register"
+        ></input>
       </form>
     </Fragment>
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAlert })(Register);
