@@ -16,9 +16,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 const App = () => (
   <Provider store={store}>
     <Router>
+      <NavBar />
       <Container className="App">
         <CssBaseline />
-        <NavBar />
         <Route exact path="/" component={Home} />
         <section className="container">
           <AlertLayout />
