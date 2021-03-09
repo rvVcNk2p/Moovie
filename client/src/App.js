@@ -1,29 +1,33 @@
 import "./App.css";
-import React, { Fragment } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import NavBar from "./components/layout/NavBar";
 import Home from "./components/layout/Home";
-import Alert from "./components/layout/Alert";
+import AlertLayout from "./components/layout/AlertLayout";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
+// Material-UI elements
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const App = () => (
   <Provider store={store}>
     <Router>
-      <Fragment className="App">
+      <Container className="App">
+        <CssBaseline />
         <NavBar />
         <Route exact path="/" component={Home} />
         <section className="container">
-          <Alert />
+          <AlertLayout />
           <Switch>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
           </Switch>
         </section>
-      </Fragment>
+      </Container>
     </Router>
   </Provider>
 );
