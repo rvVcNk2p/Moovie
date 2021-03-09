@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 // Material-UI elements
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
@@ -172,8 +172,12 @@ const Register = ({ setAlert }) => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to="/login" variant="body2">
-                Already have an account? Sign in
+              <Link
+                to="/login"
+                className={"MuiTypography-colorPrimary"}
+                style={{ textDecoration: "none" }}
+              >
+                Do you need an account? Sign up
               </Link>
             </Grid>
           </Grid>
@@ -182,7 +186,11 @@ const Register = ({ setAlert }) => {
       <Box mt={5}>
         <Typography variant="body2" color="textSecondary" align="center">
           {"Copyright © "}
-          <Link color="inherit" href="https://moovie.io/">
+          <Link
+            to="https://www.moovie.io/"
+            className={"MuiTypography-colorInherit"}
+            style={{ textDecoration: "none" }}
+          >
             Moovie.io
           </Link>{" "}
           {new Date().getFullYear()}
