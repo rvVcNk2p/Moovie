@@ -7,7 +7,11 @@ import { Alert } from "@material-ui/lab";
 const AlertLayout = ({ alerts }) =>
   alerts.length > 0 &&
   alerts.map((alert) => (
-    <Alert key={alert.id} severity={`${alert.alertType}`}>
+    <Alert
+      style={{ marginTop: "5px", marginBottom: "5px" }}
+      key={alert.id}
+      severity={`${alert.alertType}`}
+    >
       {alert.msg} -{" "}
       {alert.alertType === "error" ? (
         <strong>Check it out!</strong>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { login } from "../../actions/auth";
 // Material-UI elements
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,7 +17,7 @@ import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import TextField from "@material-ui/core/TextField";
 
-const Login = ({ setAlert }) => {
+const Login = ({ setAlert, login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,10 +30,7 @@ const Login = ({ setAlert }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // TODO - API Request
-    // setAlert(`Something went wrong. Email or password do not exists.`, "warning");
-    setAlert(`Authentication was susseccfull.`, "success");
-    setAlert(`Redirecting in progress...`, "info");
+    login(email, password);
   };
 
   const emailValidation = () => {
@@ -67,6 +65,11 @@ const Login = ({ setAlert }) => {
   }));
 
   const classes = useStyles();
+
+  // Redirect if logged in
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -162,6 +165,12 @@ const Login = ({ setAlert }) => {
 
 Login.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert })(Login);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, login })(Login);

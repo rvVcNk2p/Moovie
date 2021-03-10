@@ -42,7 +42,7 @@ router.post('/', auth, async (req, res) => {
 
         return res.status(200).json({
           newlyCreatedFilm,
-          msg: 'Film created successfully!'
+          msg: 'Film created successfully!',
         });
       } else res.status(400).json({ film, msg: 'Film already exists!' });
     }
@@ -61,7 +61,7 @@ router.put(
     check('name', 'Name is required with minimum length of 3 character.')
       .not()
       .isEmpty()
-      .isLength({ min: 3 })
+      .isLength({ min: 3 }),
   ],
   auth,
   async (req, res) => {
@@ -77,19 +77,17 @@ router.put(
       const isFilmExists = await Film.findById({ _id });
 
       if (isFilmExists) {
-        console.log('=== ', _id);
         const updatedFilm = await Film.findOneAndUpdate(
           { _id },
           {
             name,
-            categories
+            categories,
           },
           { new: true }
         );
-        console.log(updatedFilm);
         return res.json({
           film: updatedFilm,
-          msg: 'Film has been updated!'
+          msg: 'Film has been updated!',
         });
       } else {
         res.status(404).json({ msg: `Film with ID: ${_id}, does not exists!` });

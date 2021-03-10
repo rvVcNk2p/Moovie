@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { register } from "../../actions/auth";
 // Material-UI elements
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,7 +17,7 @@ import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import TextField from "@material-ui/core/TextField";
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,7 +35,7 @@ const Register = ({ setAlert }) => {
     if (password !== password2) {
       setAlert("Passwords are do not match.", "error");
     } else {
-      console.log(password);
+      register({ name, email, password });
     }
   };
 
@@ -75,6 +76,11 @@ const Register = ({ setAlert }) => {
   }));
 
   const classes = useStyles();
+
+  // Redirect if logged in
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -203,6 +209,12 @@ const Register = ({ setAlert }) => {
 
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert })(Register);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const config = require('config');
+const bycrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 
 const auth = require('../../middleware/auth');
@@ -11,7 +13,6 @@ const User = require('../../models/User');
 //  @access Private
 router.get('/', auth, async (req, res) => {
   try {
-    console.log(req.user.id);
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
@@ -26,14 +27,12 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check('name', 'Name is required')
-      .not()
-      .isEmpty(),
+    check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check(
       'password',
       'Please enter a password with 6 or more character'
-    ).isLength({ min: 6 })
+    ).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -55,17 +54,17 @@ router.post(
       user = new User({
         name,
         email,
-        password
+        password,
       });
       // Encrypt the password
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
+      const salt = await bycrypt.genSalt(10);
+      user.password = await bycrypt.hash(password, salt);
       await user.save();
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
       // Return jsonwebtoken
       jwt.sign(
