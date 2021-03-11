@@ -40,7 +40,7 @@ router.post('/', auth, async (req, res) => {
 
         return res.status(200).json({
           category: newlyCreatedCategory,
-          msg: 'Category created successfully!'
+          msg: 'Category created successfully!',
         });
       } else
         res.status(400).json({ category, msg: 'Category already exists!' });
@@ -60,7 +60,7 @@ router.put(
     check('name', 'Name is required with minimum length of 3 character.')
       .not()
       .isEmpty()
-      .isLength({ min: 3 })
+      .isLength({ min: 3 }),
   ],
   auth,
   async (req, res) => {
@@ -71,7 +71,7 @@ router.put(
     // TODO - _id, name, symbol validation
     try {
       const _id = req.params.category_id;
-      const { name, symbol } = req.body;
+      const { name, symbol, fontColor, bgColor } = req.body;
 
       const isCategory = await Category.findById({ _id });
 
@@ -80,13 +80,15 @@ router.put(
           _id,
           {
             name,
-            symbol
+            symbol,
+            fontColor,
+            bgColor,
           },
           { new: true }
         );
         return res.json({
           category: updatedCategory,
-          msg: 'Category has been updated!'
+          msg: 'Category has been updated!',
         });
       } else {
         res

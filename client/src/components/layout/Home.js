@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-const Home = () => {
+const Home = ({ auth: { isAuthenticated } }) => {
   return (
-    <>
-      <h1>I'm the Home.js</h1>
-    </>
+    <Fragment>
+      <h1>Am I Authenticated? {isAuthenticated ? "TRUE" : "FALSE"} </h1>
+    </Fragment>
   );
 };
 
-export default Home;
+Home.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {})(Home);

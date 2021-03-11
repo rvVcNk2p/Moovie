@@ -10,8 +10,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
-import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import MovieFilterIcon from "@material-ui/icons/MovieFilter";
+import TheatersIcon from "@material-ui/icons/Theaters";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +32,24 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
 
   const authLinks = (
     <Fragment>
+      <Link to="/library" style={{ textDecoration: "none" }}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          startIcon={<MovieFilterIcon style={{ color: "white" }} />}
+        >
+          Library
+        </Button>
+      </Link>
+      <Link to="/watchlist" style={{ textDecoration: "none" }}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          startIcon={<TheatersIcon style={{ color: "white" }} />}
+        >
+          Watchlist
+        </Button>
+      </Link>
       <Link to="/" style={{ textDecoration: "none" }}>
         <Button
           style={{ color: "white" }}

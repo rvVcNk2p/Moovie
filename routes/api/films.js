@@ -4,10 +4,10 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const auth = require('../../middleware/auth');
-const Category = require('../../models/Category');
+//const Category = require('../../models/Category');
 const Film = require('../../models/Film');
 
-//  @route  GET api/film/
+//  @route  GET api/films/
 //  @desc   Get films
 //  @access Public
 router.get('/', async (req, res) => {
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-//  @route  POST api/film
+//  @route  POST api/films
 //  @desc   Register new film
 //  @access Private
 router.post('/', auth, async (req, res) => {
@@ -52,7 +52,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-//  @route  PUT api/film/:film_id
+//  @route  PUT api/films/:film_id
 //  @desc   Update film by ID
 //  @access Private
 router.put(
@@ -102,7 +102,7 @@ router.put(
   }
 );
 
-//  @route  DELETE api/film/:film_id
+//  @route  DELETE api/films/:film_id
 //  @desc   Remove film by ID
 //  @access Private
 router.delete('/:film_id', auth, async (req, res) => {

@@ -79,7 +79,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   // Redirect if logged in
   if (isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/library" />;
   }
 
   return (

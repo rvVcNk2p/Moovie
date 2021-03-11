@@ -6,6 +6,8 @@ import Login from "./components/auth/Login";
 import NavBar from "./components/layout/NavBar";
 import Home from "./components/layout/Home";
 import AlertLayout from "./components/layout/AlertLayout";
+import Library from "./components/layout/Library";
+import Watchlist from "./components/layout/Watchlist";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -36,6 +38,9 @@ const App = () => {
             <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              // TODO - Make it Private Route
+              <Route exact path="/library" component={Library} />
+              <Route exact path="/watchlist" component={Watchlist} />
             </Switch>
           </section>
         </Container>
