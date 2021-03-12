@@ -7,6 +7,8 @@ import {
   addFilmToWatchList,
   deleteMyFilm,
 } from "../../actions/myFilm";
+import { selectFilm } from "../../actions/film";
+import { Link } from "react-router-dom";
 // Material-UI Card Elements
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -21,6 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles({
   root: {
@@ -53,6 +56,7 @@ const FilmCard = ({
   watchFilm,
   unWatchFilm,
   deleteMyFilm,
+  selectFilm,
   isAuthenticated,
 }) => {
   const classes = useStyles();
@@ -106,11 +110,18 @@ const FilmCard = ({
             </Box>
             {typeOfList !== "films" && (
               <IconButton
-                aria-label="share"
+                aria-label="delete"
                 onClick={() => deleteMyFilm(myFilmId)}
               >
                 <DeleteIcon />
               </IconButton>
+            )}
+            {typeOfList === "films" && (
+              <Link to={`/edit-film/${_id}`}>
+                <IconButton aria-label="edit" onClick={(e) => selectFilm(_id)}>
+                  <EditIcon />
+                </IconButton>
+              </Link>
             )}
           </CardActions>
         )}
@@ -125,6 +136,7 @@ FilmCard.propTypes = {
   typeOfList: PropTypes.string.isRequired,
   unWatchFilm: PropTypes.func.isRequired,
   deleteMyFilm: PropTypes.func.isRequired,
+  selectFilm: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
@@ -137,4 +149,5 @@ export default connect(mapStateToProps, {
   watchFilm,
   unWatchFilm,
   deleteMyFilm,
+  selectFilm,
 })(FilmCard);

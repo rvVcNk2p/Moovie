@@ -26,6 +26,10 @@ export const GET_FILMS = "GET_FILMS";
 export const GET_FILMS_ERROR = "GET_FILMS_ERROR";
 export const CREATE_FILM = "CREATE_FILM";
 export const CREATE_FILM_ERROR = "CREATE_FILM_ERROR";
+export const UPDATE_FILM = "UPDATE_FILM";
+export const UPDATE_FILM_ERROR = "UPDATE_FILM_ERROR";
+export const SELECT_FILM = "SELECT_FILM";
+export const DESELECT_FILM = "DESELECT_FILM";
 // Category
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORIES_ERROR = "GET_CATEGORIES_ERROR";

@@ -3,6 +3,10 @@ import {
   CREATE_FILM,
   GET_FILMS_ERROR,
   CREATE_FILM_ERROR,
+  UPDATE_FILM,
+  UPDATE_FILM_ERROR,
+  SELECT_FILM,
+  DESELECT_FILM,
 } from "./types";
 import { setAlert } from "./alert";
 import axios from "axios";
@@ -60,4 +64,51 @@ export const addFilm = (name, coverURI, categories) => async (dispatch) => {
       type: CREATE_FILM_ERROR,
     });
   }
+};
+
+export const updateFilm = (_id, name, coverURI, categories) => async (
+  dispatch
+) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const res = await axios.put(
+      `/api/films/${_id}`,
+      { name, coverURI, categories },
+      config
+    );
+
+    dispatch({
+      type: UPDATE_FILM,
+      payload: res.data.film,
+    });
+    dispatch(setAlert(res.data.msg, "success"));
+    dispatch({ type: DESELECT_FILM });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        dispatch(setAlert(error.msg, "error"));
+      });
+    }
+    dispatch({ type: UPDATE_FILM_ERROR });
+    dispatch({ type: DESELECT_FILM });
+  }
+};
+
+export const selectFilm = (_id) => async (dispatch) => {
+  dispatch({
+    type: SELECT_FILM,
+    payload: _id,
+  });
+};
+
+export const deselectFilm = () => async (dispatch) => {
+  dispatch({
+    type: DESELECT_FILM,
+  });
 };

@@ -73,15 +73,16 @@ router.put(
     // TODO - _id, name, symbol validation
     try {
       const _id = req.params.film_id;
-      const { name, categories } = req.body;
+      const { name, coverURI, categories } = req.body;
 
       const isFilmExists = await Film.findById({ _id });
 
       if (isFilmExists) {
-        const updatedFilm = await Film.findOneAndUpdate(
+        const updatedFilm = await Film.findByIdAndUpdate(
           { _id },
           {
             name,
+            coverURI,
             categories,
           },
           { new: true }
@@ -91,12 +92,14 @@ router.put(
           msg: 'Film has been updated!',
         });
       } else {
-        res.status(404).json({ msg: `Film with ID: ${_id}, does not exists!` });
+        res.status(404).json({
+          errors: [{ msg: `Film with ID: ${_id}, does not exists!` }],
+        });
       }
     } catch (err) {
       console.log(err.message);
       if (err.kind === 'ObjectId') {
-        return res.status(404).json({ msg: 'Film not found!' });
+        return res.status(404).json({ errors: [{ msg: 'Film not found!' }] });
       }
       res.status(500).send('Server Error');
     }
