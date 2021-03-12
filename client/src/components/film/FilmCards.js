@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import FilmCard from "./FilmCard";
 
@@ -14,9 +14,19 @@ const FilmCards = ({ films, typeOfList }) => (
   >
     {films.map((film) => {
       if (film.isAlreadySeen && typeOfList === "library")
-        return <FilmCard myFilm={film} key={film._id} />;
-      if (film.isNeedItToWatch && typeOfList === "watchlist")
-        return <FilmCard myFilm={film} key={film._id} />;
+        return <FilmCard myFilm={film} key={film._id} typeOfList="library" />;
+      else if (film.isNeedItToWatch && typeOfList === "watchlist")
+        return <FilmCard myFilm={film} key={film._id} typeOfList="watchlist" />;
+      else if (typeOfList === "films") {
+        const transformedFilm = { filmId: { ...film } };
+        return (
+          <FilmCard
+            myFilm={transformedFilm}
+            key={film._id}
+            typeOfList="films"
+          />
+        );
+      }
     })}
   </Grid>
 );

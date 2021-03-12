@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import FilmCards from "../film/FilmCards";
-import { getMyFilms } from "../../actions/film";
+import { getMyFilms } from "../../actions/myFilm";
 
-const Watchlist = ({ film, getMyFilms }) => {
+const Watchlist = ({ myFilm: { myFilms }, getMyFilms }) => {
   useEffect(() => {
     getMyFilms();
   }, [getMyFilms]);
@@ -13,18 +13,18 @@ const Watchlist = ({ film, getMyFilms }) => {
   return (
     <Fragment>
       <h1>Watchlist</h1>
-      <FilmCards films={film.films} typeOfList={"watchlist"} />
+      <FilmCards films={myFilms} typeOfList={"watchlist"} />
     </Fragment>
   );
 };
 
 Watchlist.propTypes = {
-  film: PropTypes.object.isRequired,
+  myFilm: PropTypes.object.isRequired,
   getMyFilms: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  film: state.film,
+  myFilm: state.myFilm,
 });
 
 export default connect(mapStateToProps, { getMyFilms })(Watchlist);

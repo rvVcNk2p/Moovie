@@ -9,6 +9,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+// Material-UI Icons
+import PublicIcon from "@material-ui/icons/Public";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import MovieFilterIcon from "@material-ui/icons/MovieFilter";
 import TheatersIcon from "@material-ui/icons/Theaters";
@@ -50,7 +52,16 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           Watchlist
         </Button>
       </Link>
-      <Link to="/" style={{ textDecoration: "none" }}>
+      <Link to="/films" style={{ textDecoration: "none" }}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          startIcon={<PublicIcon style={{ color: "white" }} />}
+        >
+          Films
+        </Button>
+      </Link>
+      <Link to="/films" style={{ textDecoration: "none" }}>
         <Button
           style={{ color: "white" }}
           size="small"
@@ -65,6 +76,15 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
 
   const guestLinks = (
     <Fragment>
+      <Link to="/films" style={{ textDecoration: "none" }}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          startIcon={<PublicIcon style={{ color: "white" }} />}
+        >
+          Films
+        </Button>
+      </Link>
       <Link to="/register" style={{ textDecoration: "none" }}>
         <Button
           style={{ color: "white" }}

@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 router.post('/', auth, async (req, res) => {
   // TODO - _id, name, symbol validation
   try {
-    const { _id, name, categories } = req.body;
+    const { _id, name, coverURI, categories } = req.body;
     if (_id) {
       const film = await Film.findById(_id);
       return res.status(400).json({ film, msg: 'Film already exists!' });
@@ -36,7 +36,7 @@ router.post('/', auth, async (req, res) => {
       if (!film) {
         const newlyCreatedFilm = await Film.findOneAndUpdate(
           { name },
-          { name, categories },
+          { name, coverURI, categories },
           { upsert: true, new: true }
         ).populate('categories');
 
@@ -44,7 +44,8 @@ router.post('/', auth, async (req, res) => {
           newlyCreatedFilm,
           msg: 'Film created successfully!',
         });
-      } else res.status(400).json({ film, msg: 'Film already exists!' });
+      } else
+        res.status(400).json({ errors: [{ msg: 'Film already exists!' }] });
     }
   } catch (err) {
     console.log(err.message);
