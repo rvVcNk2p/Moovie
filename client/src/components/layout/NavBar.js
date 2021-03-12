@@ -61,6 +61,15 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           Films
         </Button>
       </Link>
+      <Link to="/create-category" style={{ textDecoration: "none" }}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          startIcon={<PublicIcon style={{ color: "white" }} />}
+        >
+          Categories
+        </Button>
+      </Link>
       <Link to="/films" style={{ textDecoration: "none" }}>
         <Button
           style={{ color: "white" }}

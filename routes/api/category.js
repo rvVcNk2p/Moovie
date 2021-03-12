@@ -23,28 +23,22 @@ router.get('/', async (req, res) => {
 //  @desc   Register new category
 //  @access Private
 router.post('/', auth, async (req, res) => {
-  // TODO - _id, name, symbol validation
+  // TODO - name, symbol validation
   try {
-    const { _id, name, symbol } = req.body;
-    if (_id) {
-      const category = await Category.findById(_id);
-      return res
-        .status(400)
-        .json({ category, msg: 'Category already exists!' });
-    } else {
-      const category = await Category.findOne({ name });
+    const { name, symbol, bgColor, fontColor } = req.body;
 
-      if (!category) {
-        const newCategory = new Category({ name, symbol });
-        const newlyCreatedCategory = await newCategory.save();
+    const category = await Category.findOne({ name });
 
-        return res.status(200).json({
-          category: newlyCreatedCategory,
-          msg: 'Category created successfully!',
-        });
-      } else
-        res.status(400).json({ category, msg: 'Category already exists!' });
-    }
+    if (!category) {
+      const newCategory = new Category({ name, symbol, bgColor, fontColor });
+      const newlyCreatedCategory = await newCategory.save();
+
+      return res.status(200).json({
+        category: newlyCreatedCategory,
+        msg: 'Category created successfully!',
+      });
+    } else
+      res.status(400).json({ errors: [{ msg: 'Category already exists!' }] });
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');
@@ -75,9 +69,10 @@ router.put(
 
       const isCategory = await Category.findById({ _id });
 
+      console.log('isCategory: ', isCategory);
       if (isCategory) {
-        const updatedCategory = await Category.findOneAndUpdate(
-          _id,
+        const updatedCategory = await Category.findByIdAndUpdate(
+          { _id },
           {
             name,
             symbol,
@@ -86,19 +81,22 @@ router.put(
           },
           { new: true }
         );
+        console.log(updatedCategory);
         return res.json({
           category: updatedCategory,
           msg: 'Category has been updated!',
         });
       } else {
-        res
-          .status(404)
-          .json({ msg: `Category with ID: ${_id}, does not exists!` });
+        res.status(404).json({
+          errors: [{ msg: `Category with ID: ${_id}, does not exists!` }],
+        });
       }
     } catch (err) {
       console.log(err.message);
       if (err.kind === 'ObjectId') {
-        return res.status(404).json({ msg: 'Category not found!' });
+        return res
+          .status(404)
+          .json({ errors: [{ msg: 'Category not found!' }] });
       }
       res.status(500).send('Server Error');
     }
@@ -116,19 +114,22 @@ router.delete('/:category_id', auth, async (req, res) => {
       const category = await Category.findById(_id);
       if (category) {
         await Category.findByIdAndDelete(_id);
+        // TODO - Remove category from all films
         return res.json({ msg: 'Category has been removed!' });
       } else {
-        return res
-          .status(404)
-          .json({ msg: `Category with ID: ${_id}, does not exists!` });
+        return res.status(404).json({
+          errors: [{ msg: `Category with ID: ${_id}, does not exists!` }],
+        });
       }
     } else {
-      res.status(404).json({ msg: 'Category ID is not valid!' });
+      res.status(404).json({ errors: [{ msg: 'Category not found!' }] });
     }
   } catch (err) {
     console.log(err.message);
     if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Category not found!' });
+      return res
+        .status(404)
+        .json({ errors: [{ msg: 'Not valid category ID.' }] });
     }
     res.status(500).send('Server Error');
   }

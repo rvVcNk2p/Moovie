@@ -11,7 +11,7 @@ const CategorySchema = new mongoose.Schema({
   },
   fontColor: {
     type: String,
-    default: '#000',
+    default: '#fff',
   },
   bgColor: {
     type: String,
