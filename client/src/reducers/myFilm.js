@@ -7,6 +7,8 @@ import {
   WATCH_FILM_ERROR,
   UNWATCH_FILM,
   UNWATCH_FILM_ERROR,
+  DELETE_MY_FILM,
+  DELETE_MY_FILM_ERROR,
 } from "../actions/types";
 
 const initialState = {
@@ -41,7 +43,14 @@ export default function (state = initialState, action) {
         }),
         loading: false,
       };
+    case DELETE_MY_FILM:
+      return {
+        ...state,
+        myFilms: state.myFilms.filter((myfilm) => myfilm._id !== payload),
+        loading: false,
+      };
     case GET_MY_FILMS_ERROR:
+    case DELETE_MY_FILM_ERROR:
       return {
         ...state,
         myFilms: [],

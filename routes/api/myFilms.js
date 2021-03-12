@@ -4,10 +4,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const auth = require('../../middleware/auth');
-const Category = require('../../models/Category');
-const Film = require('../../models/Film');
 const MyFilm = require('../../models/MyFilm');
-const User = require('../../models/User');
 
 //  @route  GET api/my-films/
 //  @desc   Get Films from logged in User [ID]
@@ -85,6 +82,39 @@ router.post('/', auth, async (req, res) => {
           msg: 'Selected film was successfully added to your Watchlist.',
         });
       }
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//  @route  DELETE api/my-films/:id
+//  @desc   Delete myFilm by ID
+//  @access Private
+router.delete('/:_id', auth, async (req, res) => {
+  // TODO - _id validation
+  try {
+    const userId = req.user.id;
+    const _id = req.params._id;
+
+    if (_id) {
+      const myFilm = await MyFilm.findOne({ _id, userId });
+      if (myFilm) {
+        // Update selected Film in your library - [ ID ]
+        await MyFilm.findOneAndDelete({ _id, userId });
+        return res.json({
+          msg: 'Selected myFilm was successfully removed.',
+        });
+      } else {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'myFilm does not exists!' }] });
+      }
+    } else {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Given myFilm ID does not exists!' }] });
     }
   } catch (err) {
     console.log(err.message);

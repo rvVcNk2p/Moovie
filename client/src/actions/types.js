@@ -19,6 +19,8 @@ export const WATCH_FILM = "WATCH_FILM";
 export const WATCH_FILM_ERROR = "WATCH_FILM_ERROR";
 export const UNWATCH_FILM = "UNWATCH_FILM";
 export const UNWATCH_FILM_ERROR = "UNWATCH_FILM_ERROR";
+export const DELETE_MY_FILM = "DELETE_MY_FILM";
+export const DELETE_MY_FILM_ERROR = "DELETE_MY_FILM_ERROR";
 // Films
 export const GET_FILMS = "GET_FILMS";
 export const GET_FILMS_ERROR = "GET_FILMS_ERROR";
