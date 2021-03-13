@@ -16,6 +16,7 @@ import MovieFilterIcon from "@material-ui/icons/MovieFilter";
 import TheatersIcon from "@material-ui/icons/Theaters";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import CategoryIcon from "@material-ui/icons/Category";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  itemName: {
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
   },
 }));
 
@@ -40,7 +47,7 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           size="small"
           startIcon={<MovieFilterIcon style={{ color: "white" }} />}
         >
-          Library
+          <span className={classes.itemName}>Library</span>
         </Button>
       </Link>
       <Link to="/watchlist" style={{ textDecoration: "none" }}>
@@ -49,7 +56,7 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           size="small"
           startIcon={<TheatersIcon style={{ color: "white" }} />}
         >
-          Watchlist
+          <span className={classes.itemName}>Watchlist</span>
         </Button>
       </Link>
       <Link to="/films" style={{ textDecoration: "none" }}>
@@ -58,16 +65,16 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           size="small"
           startIcon={<PublicIcon style={{ color: "white" }} />}
         >
-          Films
+          <span className={classes.itemName}>Films</span>
         </Button>
       </Link>
       <Link to="/create-category" style={{ textDecoration: "none" }}>
         <Button
           style={{ color: "white" }}
           size="small"
-          startIcon={<PublicIcon style={{ color: "white" }} />}
+          startIcon={<CategoryIcon style={{ color: "white" }} />}
         >
-          Categories
+          <span className={classes.itemName}>Categories</span>
         </Button>
       </Link>
       <Link to="/films" style={{ textDecoration: "none" }}>
@@ -77,7 +84,7 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           startIcon={<ExitToAppIcon style={{ color: "white" }} />}
           onClick={logout}
         >
-          Logout
+          <span className={classes.itemName}>Logout</span>
         </Button>
       </Link>
     </Fragment>
@@ -91,7 +98,7 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           size="small"
           startIcon={<PublicIcon style={{ color: "white" }} />}
         >
-          Films
+          <span className={classes.itemName}>Films</span>
         </Button>
       </Link>
       <Link to="/register" style={{ textDecoration: "none" }}>
@@ -100,7 +107,7 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           size="small"
           startIcon={<AccountCircleOutlinedIcon style={{ color: "white" }} />}
         >
-          Sign up
+          <span className={classes.itemName}>Sign up</span>
         </Button>
       </Link>
       <Link to="/login" style={{ textDecoration: "none" }}>
@@ -109,7 +116,7 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
           size="small"
           startIcon={<MeetingRoomIcon style={{ color: "white" }} />}
         >
-          Sign in
+          <span className={classes.itemName}>Sign in</span>
         </Button>
       </Link>
     </Fragment>

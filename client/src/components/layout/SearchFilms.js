@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
 import { searchInFilms } from "../../actions/film";
 import { searchInMyFilms } from "../../actions/myFilm";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+// Material-UI Elements
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
 
 const SearchFilms = ({
   location,
@@ -37,8 +39,19 @@ const SearchFilms = ({
     });
   }, [history]);
 
+  const useStyles = makeStyles((theme) => ({
+    searchInput: {
+      width: 175,
+      [theme.breakpoints.up("sm")]: {
+        width: 300,
+      },
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
-    <div style={{ width: "300px" }}>
+    <div className={classes.searchInput}>
       <TextField
         variant="outlined"
         placeholder="Search for anything"

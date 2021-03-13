@@ -36,10 +36,10 @@ const App = () => {
         <NavBar />
         <Container className="App">
           <CssBaseline />
-          <Route exact path="/" component={Home} />
           <section className="container">
             <AlertLayout />
             <Switch>
+              <Route exact path="/" component={Films} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/films" component={Films} />

@@ -13,8 +13,12 @@ import {
 } from "./types";
 import { setAlert } from "./alert";
 import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
 
 export const getMyFilms = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
   try {
     const res = await axios.get("/api/my-films");
 

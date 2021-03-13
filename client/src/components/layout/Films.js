@@ -34,7 +34,7 @@ const Films = ({
         {isAuthenticated && (
           <Link to="/create-film" style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary" endIcon={<AddIcon />}>
-              Add new film
+              New film
             </Button>
           </Link>
         )}
