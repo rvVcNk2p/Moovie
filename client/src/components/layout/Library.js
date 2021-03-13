@@ -1,18 +1,17 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 
 import FilmCards from "../film/FilmCards";
+import SearchFilms from "./SearchFilms";
 import { getMyFilms } from "../../actions/myFilm";
 import { getCategories } from "../../actions/category";
 import { getFilms } from "../../actions/film";
+
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
 
 const Library = ({
-  myFilm: { myFilms },
+  myFilm: { myFilms, filteredMyFilms, searchingTerm, loading },
   getMyFilms,
   getCategories,
   getFilms,
@@ -33,13 +32,14 @@ const Library = ({
         alignItems="center"
       >
         <h1>My Library</h1>
-        <Link to="/create-film" style={{ textDecoration: "none" }}>
-          <Button variant="contained" color="primary" endIcon={<AddIcon />}>
-            Add new film
-          </Button>
-        </Link>
+        <SearchFilms location="library" />
       </Box>
-      <FilmCards films={myFilms} typeOfList={"library"} />
+      {!loading && (
+        <FilmCards
+          films={searchingTerm.length > 0 ? filteredMyFilms : myFilms}
+          typeOfList={"library"}
+        />
+      )}
     </Fragment>
   );
 };

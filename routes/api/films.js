@@ -86,7 +86,8 @@ router.put(
             categories,
           },
           { new: true }
-        );
+        ).populate('categories');
+
         return res.json({
           film: updatedFilm,
           msg: 'Film has been updated!',

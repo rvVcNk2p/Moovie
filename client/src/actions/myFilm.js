@@ -9,6 +9,7 @@ import {
   UNWATCH_FILM_ERROR,
   DELETE_MY_FILM,
   DELETE_MY_FILM_ERROR,
+  SEARCH_MY_FILMS,
 } from "./types";
 import { setAlert } from "./alert";
 import axios from "axios";
@@ -137,4 +138,11 @@ export const unWatchFilm = (_id) => async (dispatch) => {
       type: UNWATCH_FILM_ERROR,
     });
   }
+};
+
+export const searchInMyFilms = (inputText) => (dispatch) => {
+  dispatch({
+    type: SEARCH_MY_FILMS,
+    payload: inputText,
+  });
 };

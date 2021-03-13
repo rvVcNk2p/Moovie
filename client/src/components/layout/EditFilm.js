@@ -75,12 +75,12 @@ const CreateFilm = ({ createdCategories, film, updateFilm }) => {
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 120,
-      maxWidth: 300,
+      minWidth: 200,
+      maxWidth: 385,
     },
     chips: {
       display: "flex",
-      flexWrap: "wrap",
+      whiteSpace: "none",
     },
     chip: {
       margin: 2,
@@ -90,7 +90,7 @@ const CreateFilm = ({ createdCategories, film, updateFilm }) => {
   const MenuProps = {
     PaperProps: {
       style: {
-        width: 250,
+        width: 385,
       },
     },
   };

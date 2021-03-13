@@ -7,10 +7,13 @@ import {
   UPDATE_FILM_ERROR,
   SELECT_FILM,
   DESELECT_FILM,
+  SEARCH_FILMS,
 } from "../actions/types";
 
 const initialState = {
   films: [],
+  filteredFilms: [],
+  searchingTerm: "",
   film: {},
   loading: true,
 };
@@ -57,6 +60,23 @@ export default function (state = initialState, action) {
       return {
         ...state,
         film: {},
+      };
+    case SEARCH_FILMS:
+      return {
+        ...state,
+        filteredFilms: state.films.filter((film) => {
+          const isName = film.name
+            .toLowerCase()
+            .includes(payload.toLowerCase());
+
+          let isCategory = false;
+          film.categories.forEach((ctg) => {
+            if (ctg.name.toLowerCase().includes(payload.toLowerCase()))
+              isCategory = true;
+          });
+          if (isName || isCategory) return film;
+        }),
+        searchingTerm: payload,
       };
     case CREATE_FILM_ERROR:
     case UPDATE_FILM_ERROR:

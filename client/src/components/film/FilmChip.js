@@ -1,11 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+import { connect } from "react-redux";
+import { searchInFilms } from "../../actions/film";
+import { searchInMyFilms } from "../../actions/myFilm";
+
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 
 import "./FilmChip.css";
 
-const FilmChip = ({ category: { _id, symbol, name, bgColor, fontColor } }) => {
+const FilmChip = ({
+  category: { _id, symbol, name, bgColor, fontColor },
+  typeOfList,
+  searchInFilms,
+  searchInMyFilms,
+}) => {
+  const setSearchField = (name) => {
+    if (typeOfList === "films") searchInFilms(name);
+    else if (typeOfList === "watchlist" || typeOfList === "library")
+      searchInMyFilms(name);
+  };
   return (
     <>
       <Chip
@@ -30,6 +45,7 @@ const FilmChip = ({ category: { _id, symbol, name, bgColor, fontColor } }) => {
         label={name}
         size="small"
         clickable
+        onClick={(e) => setSearchField(name)}
       />
     </>
   );
@@ -37,6 +53,9 @@ const FilmChip = ({ category: { _id, symbol, name, bgColor, fontColor } }) => {
 
 FilmChip.propTypes = {
   category: PropTypes.object.isRequired,
+  typeOfList: PropTypes.string.isRequired,
+  searchInMyFilms: PropTypes.func.isRequired,
+  searchInFilms: PropTypes.func.isRequired,
 };
 
-export default FilmChip;
+export default connect(null, { searchInFilms, searchInMyFilms })(FilmChip);

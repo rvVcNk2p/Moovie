@@ -9,10 +9,13 @@ import {
   UNWATCH_FILM_ERROR,
   DELETE_MY_FILM,
   DELETE_MY_FILM_ERROR,
+  SEARCH_MY_FILMS,
 } from "../actions/types";
 
 const initialState = {
   myFilms: [],
+  filteredMyFilms: [],
+  searchingTerm: "",
   loading: true,
 };
 
@@ -48,6 +51,23 @@ export default function (state = initialState, action) {
         ...state,
         myFilms: state.myFilms.filter((myfilm) => myfilm._id !== payload),
         loading: false,
+      };
+    case SEARCH_MY_FILMS:
+      return {
+        ...state,
+        filteredMyFilms: state.myFilms.filter((myfilm) => {
+          const isName = myfilm.filmId.name
+            .toLowerCase()
+            .includes(payload.toLowerCase());
+
+          let isCategory = false;
+          myfilm.filmId.categories.forEach((ctg) => {
+            if (ctg.name.toLowerCase().includes(payload.toLowerCase()))
+              isCategory = true;
+          });
+          if (isName || isCategory) return myfilm;
+        }),
+        searchingTerm: payload,
       };
     case GET_MY_FILMS_ERROR:
     case DELETE_MY_FILM_ERROR:

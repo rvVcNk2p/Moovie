@@ -26,22 +26,20 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles({
-  root: {
-    // display: "flex",
-    // flexDirection: "row",
-  },
   content: {
     paddingLeft: "10px",
     paddingTop: "10px",
   },
   media: {
+    width: "100px",
+    height: "150px",
     cursor: "pointer",
-    minWidth: "40%",
   },
   actions: {
     display: "flex",
-    direction: "row",
+    flexDirection: "row",
     justifyContent: "space-between",
+    padding: 0,
   },
 });
 
@@ -73,7 +71,7 @@ const FilmCard = ({
 
   return (
     <Grid item xs={6} sm={4} md={3} key={_id}>
-      <Card className={classes.root}>
+      <Card>
         <Box component="div" display="flex" flexDirection="row">
           <CardMedia
             component="img"
@@ -89,7 +87,11 @@ const FilmCard = ({
             <Box component="div">
               {categories.map((category) => {
                 return (
-                  <FilmChip category={category} key={category._id + _id} />
+                  <FilmChip
+                    category={category}
+                    typeOfList={typeOfList}
+                    key={category._id + _id}
+                  />
                 );
               })}
             </Box>

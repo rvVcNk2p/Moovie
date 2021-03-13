@@ -7,6 +7,7 @@ import {
   UPDATE_FILM_ERROR,
   SELECT_FILM,
   DESELECT_FILM,
+  SEARCH_FILMS,
 } from "./types";
 import { setAlert } from "./alert";
 import axios from "axios";
@@ -107,8 +108,9 @@ export const selectFilm = (_id) => async (dispatch) => {
   });
 };
 
-export const deselectFilm = () => async (dispatch) => {
+export const searchInFilms = (inputText) => (dispatch) => {
   dispatch({
-    type: DESELECT_FILM,
+    type: SEARCH_FILMS,
+    payload: inputText,
   });
 };

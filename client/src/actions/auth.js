@@ -7,6 +7,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  REDIRECT,
 } from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -94,5 +95,13 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
+  });
+};
+
+// Redirect
+export const redirect = (link) => (dispatch) => {
+  dispatch({
+    type: REDIRECT,
+    payload: link,
   });
 };
