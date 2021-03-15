@@ -6,6 +6,7 @@ import {
   deleteCategory,
   updateCategory,
 } from "../../actions/category";
+import FilmChip from "../film/FilmChip";
 // Material-UI elements
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -204,13 +205,26 @@ const Caregory = ({
             </Button>
           </Box>
         </form>
+        <Box compoenent="div">
+          <Box component="h1" style={{ textAlign: "center" }}>
+            PREVIEW
+          </Box>
+          <FilmChip
+            typeOfList="preview"
+            category={{ name, bgColor, fontColor, symbol }}
+          />
+        </Box>
         <Box component="div" style={{ marginBottom: "50px" }}>
-          <h1> Caregories: </h1>
+          <Box component="h1" textAlign="center">
+            {" "}
+            CATEGORIES{" "}
+          </Box>
           <Box component="div">
             {createdCategories
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((ctg) => (
                 <Box
+                  style={{ margin: 5 }}
                   key={ctg._id}
                   component="div"
                   display="flex"
@@ -219,7 +233,6 @@ const Caregory = ({
                 >
                   [
                   <DeleteForeverIcon
-                    // TODO - Are u sure?
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       const confirm = window.confirm(
@@ -232,12 +245,21 @@ const Caregory = ({
                   <EditIcon
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      // window.confirm();
                       setEditOrCreate("edit");
                       setFormData(ctg);
                     }}
                   />
-                  ] {ctg.symbol} {ctg.name}
+                  <span style={{ marginRight: "10px" }}>] </span>
+                  <FilmChip
+                    typeOfList="preview"
+                    category={{
+                      _id: ctg._id,
+                      name: ctg.name,
+                      bgColor: ctg.bgColor,
+                      fontColor: ctg.fontColor,
+                      symbol: ctg.symbol,
+                    }}
+                  />
                 </Box>
               ))}
           </Box>

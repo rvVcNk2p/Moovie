@@ -182,16 +182,6 @@ const CreateFilm = ({ createdCategories, addFilm }) => {
             Add new film
           </Button>
         </form>
-        {/* <Box style={{ marginBottom: 50 }}>
-          <Box component="h1" textAlign="center">
-            {" "}
-            PREVIEW 
-          </Box>
-          <FilmCard
-            myFilm={{ filmId: { name, coverURI, categories } }}
-            simpleCard={true}
-          />
-        </Box> */}
       </div>
     </Container>
   );

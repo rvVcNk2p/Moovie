@@ -29,7 +29,7 @@ const FilmChip = ({
             style={{
               paddingTop: "2px",
               paddingLeft: "4px",
-              fontSize: "1rem",
+              fontSize: typeOfList === "preview" ? "0.75rem" : "1rem",
               backgroundColor: "white",
             }}
           >
@@ -39,10 +39,10 @@ const FilmChip = ({
         style={{
           backgroundColor: bgColor,
           color: fontColor,
-          height: "12px",
-          fontSize: "0.4rem",
+          height: typeOfList === "preview" ? 24 : 12,
+          fontSize: typeOfList === "preview" ? "" : "0.4rem",
         }}
-        label={name}
+        label={name || "Category name"}
         size="small"
         clickable
         onClick={(e) => setSearchField(name)}
@@ -53,7 +53,7 @@ const FilmChip = ({
 
 FilmChip.propTypes = {
   category: PropTypes.object.isRequired,
-  typeOfList: PropTypes.string.isRequired,
+  typeOfList: PropTypes.string,
   searchInMyFilms: PropTypes.func.isRequired,
   searchInFilms: PropTypes.func.isRequired,
 };
