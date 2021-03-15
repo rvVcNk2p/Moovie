@@ -5,19 +5,16 @@ import { connect } from "react-redux";
 import FilmCards from "../film/FilmCards";
 import SearchFilms from "./SearchFilms";
 import { getMyFilms } from "../../actions/myFilm";
-import { getFilms } from "../../actions/film";
 
 import Box from "@material-ui/core/Box";
 
 const Library = ({
   myFilm: { myFilms, filteredMyFilms, searchingTerm, loading },
   getMyFilms,
-  getFilms,
 }) => {
   useEffect(() => {
     getMyFilms();
-    getFilms();
-  }, [getMyFilms, getFilms]);
+  }, [getMyFilms]);
 
   return (
     <Fragment>
@@ -43,7 +40,6 @@ const Library = ({
 
 Library.propTypes = {
   myFilm: PropTypes.object.isRequired,
-  getMyFilms: PropTypes.func.isRequired,
   getFilms: PropTypes.func.isRequired,
 };
 
@@ -53,5 +49,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getMyFilms,
-  getFilms,
 })(Library);

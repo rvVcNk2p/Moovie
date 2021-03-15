@@ -10,15 +10,18 @@ import { getFilms } from "../../actions/film";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
+import { getMyFilms } from "../../actions/myFilm";
 
 const Films = ({
   film: { films, filteredFilms, searchingTerm },
   getFilms,
+  getMyFilms,
   isAuthenticated,
 }) => {
   useEffect(() => {
+    getMyFilms();
     getFilms();
-  }, [getFilms]);
+  }, [getMyFilms, getFilms]);
 
   return (
     <Fragment>
@@ -56,6 +59,7 @@ Films.propTypes = {
   filteredFilms: PropTypes.array,
   isAuthenticated: PropTypes.bool,
   searchingTerm: PropTypes.string,
+  getMyFilms: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -65,4 +69,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getFilms,
+  getMyFilms,
 })(Films);
