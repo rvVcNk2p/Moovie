@@ -31,7 +31,7 @@ export default function (state = initialState, action) {
     case CREATE_FILM: {
       return {
         ...state,
-        films: [payload, ...state.films],
+        films: [...state.films, payload],
         loading: false,
       };
     }

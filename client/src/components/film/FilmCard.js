@@ -46,6 +46,7 @@ const useStyles = makeStyles({
     padding: 0,
   },
   infoBar: {
+    margin: "5px",
     color: "white",
     background: "#43a047",
     padding: "5px",
@@ -63,6 +64,7 @@ const FilmCard = ({
   },
   myFilms,
   typeOfList,
+  simpleCard,
   // Functions
   addFilmToList,
   watchFilm,
@@ -183,18 +185,27 @@ const FilmCard = ({
   );
 
   return (
-    <Grid item xs={6} sm={4} md={3} key={_id}>
+    <Grid
+      item
+      xs={simpleCard ? 12 : 6}
+      sm={simpleCard ? 12 : 4}
+      md={simpleCard ? 12 : 3}
+      key={_id}
+    >
       <Card>
         <Box component="div" display="flex" flexDirection="row">
           <CardMedia
             component="img"
             className={classes.media}
-            image={coverURI}
+            image={
+              coverURI ||
+              "https://cdn.domestika.org/raw/upload/assets/projects/project-default-cover-1248c9d991d3ef88af5464656840f5534df2ae815032af0fdf39562fee08f0a6.svg"
+            }
             title="gone-girs-cover"
           />
           <CardContent className={classes.content}>
             <Typography className={classes.title} component="h4">
-              {name}
+              {name || "Film name"}
             </Typography>
             <Box component="div">
               {categories.map((category) => {
