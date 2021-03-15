@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { addFilm } from "../../actions/film";
 // Material-UI elements
@@ -35,7 +36,8 @@ const CreateFilm = ({ createdCategories, addFilm }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addFilm(name, coverURI, categories);
+    // addFilm(name, coverURI, categories);
+    return <Redirect to="/films" />;
   };
 
   const getCategoryById = (_id) => {
