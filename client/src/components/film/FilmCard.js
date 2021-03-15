@@ -185,7 +185,7 @@ const FilmCard = ({
   );
 
   return (
-    <Grid item xs={6} sm={4} md={3} key={_id}>
+    <Grid item xs={12} sm={6} md={4} lg={3} key={_id}>
       <Card>
         <Box component="div" display="flex" flexDirection="row">
           <CardMedia

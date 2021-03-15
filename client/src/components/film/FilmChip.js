@@ -27,7 +27,6 @@ const FilmChip = ({
         avatar={
           <Avatar
             style={{
-              paddingTop: "2px",
               paddingLeft: "4px",
               fontSize: typeOfList === "preview" ? "0.75rem" : "1rem",
               backgroundColor: "white",
@@ -39,8 +38,10 @@ const FilmChip = ({
         style={{
           backgroundColor: bgColor,
           color: fontColor,
-          height: typeOfList === "preview" ? 24 : 12,
-          fontSize: typeOfList === "preview" ? "" : "0.4rem",
+          height: typeOfList === "preview" ? 24 : 18,
+          fontSize: typeOfList === "preview" ? "" : ".6rem",
+          marginRight: 4,
+          marginBottom: 4,
         }}
         label={name || "Category name"}
         size="small"
