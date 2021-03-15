@@ -44,7 +44,6 @@ const FilmChip = ({
           marginBottom: 4,
         }}
         label={name || "Category name"}
-        size="small"
         clickable
         onClick={(e) => setSearchField(name)}
       />
