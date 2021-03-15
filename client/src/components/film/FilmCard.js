@@ -1,10 +1,11 @@
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import FilmChip from "./FilmChip";
 import { connect } from "react-redux";
 import {
   watchFilm,
   unWatchFilm,
-  addFilmToWatchList,
+  addFilmToList,
   deleteMyFilm,
 } from "../../actions/myFilm";
 import { selectFilm } from "../../actions/film";
@@ -18,7 +19,11 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Popover from "@material-ui/core/Popover";
 // Material-UI Icons
+import QueueIcon from "@material-ui/icons/Queue";
+import AddToQueueIcon from "@material-ui/icons/AddToQueue";
+import UpdateIcon from "@material-ui/icons/Update";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
@@ -33,7 +38,6 @@ const useStyles = makeStyles({
   media: {
     width: "100px",
     height: "150px",
-    cursor: "pointer",
   },
   actions: {
     display: "flex",
@@ -49,8 +53,10 @@ const FilmCard = ({
     filmId: { coverURI, name, categories, _id },
     note,
   },
+  myFilms,
   typeOfList,
-  addFilmToWatchList,
+  // Functions
+  addFilmToList,
   watchFilm,
   unWatchFilm,
   deleteMyFilm,
@@ -59,15 +65,84 @@ const FilmCard = ({
 }) => {
   const classes = useStyles();
 
-  const watchOrUnwatch = (myFilmId) => {
-    if (typeOfList === "watchlist") {
-      watchFilm(myFilmId);
-    } else if (typeOfList === "library") {
-      unWatchFilm(myFilmId);
-    } else if (typeOfList === "films") {
-      if (isAuthenticated) addFilmToWatchList(_id);
-    }
-  };
+  const libraryCardAcions = (
+    <Fragment>
+      <Box component="div">
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+
+        <IconButton
+          aria-label="unwatch-film"
+          onClick={() => unWatchFilm(myFilmId)}
+        >
+          <UpdateIcon />
+        </IconButton>
+      </Box>
+      <IconButton aria-label="delete" onClick={() => deleteMyFilm(myFilmId)}>
+        <DeleteIcon />
+      </IconButton>
+    </Fragment>
+  );
+
+  const wachlistCardAcions = (
+    <Fragment>
+      <Box component="div">
+        <IconButton aria-label="watch-film" onClick={() => watchFilm(myFilmId)}>
+          <AddToQueueIcon />
+        </IconButton>
+      </Box>
+      <IconButton aria-label="delete" onClick={() => deleteMyFilm(myFilmId)}>
+        <DeleteIcon />
+      </IconButton>
+    </Fragment>
+  );
+
+  const filmsCardAcions = (
+    <Fragment>
+      <Box
+        component="div"
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-around"
+        alignItems="center"
+        width="100%"
+      >
+        <IconButton
+          aria-label="add-to-library"
+          onClick={(e) => {
+            if (isAuthenticated) addFilmToList(_id, "library");
+          }}
+        >
+          <AddToQueueIcon />
+        </IconButton>
+        <IconButton
+          aria-label="add-to-watchlist"
+          onClick={(e) => {
+            if (isAuthenticated) addFilmToList(_id, "watchlist");
+          }}
+        >
+          <QueueIcon />
+        </IconButton>
+        <Link to={`/edit-film/${_id}`}>
+          <IconButton aria-label="edit" onClick={(e) => selectFilm(_id)}>
+            <EditIcon />
+          </IconButton>
+        </Link>
+      </Box>
+    </Fragment>
+  );
+
+  // const alreadyAdded = (_id) => {
+  //   let founded = false;
+  //   myFilms.forEach((myFilm) => {
+  //     if (_id === myFilm.filmId._id) founded = true;
+  //   });
+  //   return founded ? "+" : "-";
+  // };
 
   return (
     <Grid item xs={6} sm={4} md={3} key={_id}>
@@ -78,7 +153,6 @@ const FilmCard = ({
             className={classes.media}
             image={coverURI}
             title="gone-girs-cover"
-            onClick={() => watchOrUnwatch(myFilmId)}
           />
           <CardContent className={classes.content}>
             <Typography className={classes.title} component="h4">
@@ -95,36 +169,21 @@ const FilmCard = ({
                 );
               })}
             </Box>
-            <Typography variant="body2" component="p">
+            <Box component="div">
               {/* {note !== null && note} */}
-            </Typography>
+              {/* {typeOfList === "films" && isAuthenticated ? (
+                <p>{alreadyAdded(_id)}</p>
+              ) : (
+                ""
+              )} */}
+            </Box>
           </CardContent>
         </Box>
         {isAuthenticated && (
           <CardActions disableSpacing className={classes.actions}>
-            <Box component="div">
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-            </Box>
-            {typeOfList !== "films" && (
-              <IconButton
-                aria-label="delete"
-                onClick={() => deleteMyFilm(myFilmId)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            )}
-            {typeOfList === "films" && (
-              <Link to={`/edit-film/${_id}`}>
-                <IconButton aria-label="edit" onClick={(e) => selectFilm(_id)}>
-                  <EditIcon />
-                </IconButton>
-              </Link>
-            )}
+            {typeOfList === "library" ? libraryCardAcions : ""}
+            {typeOfList === "watchlist" ? wachlistCardAcions : ""}
+            {typeOfList === "films" ? filmsCardAcions : ""}
           </CardActions>
         )}
       </Card>
@@ -140,14 +199,16 @@ FilmCard.propTypes = {
   deleteMyFilm: PropTypes.func.isRequired,
   selectFilm: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  myFilms: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  myFilms: state.myFilm.myFilms,
 });
 
 export default connect(mapStateToProps, {
-  addFilmToWatchList,
+  addFilmToList,
   watchFilm,
   unWatchFilm,
   deleteMyFilm,

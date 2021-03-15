@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import FilmCards from "../film/FilmCards";
 import SearchFilms from "./SearchFilms";
 import { getMyFilms } from "../../actions/myFilm";
-import { getCategories } from "../../actions/category";
 import { getFilms } from "../../actions/film";
 
 import Box from "@material-ui/core/Box";
@@ -13,14 +12,12 @@ import Box from "@material-ui/core/Box";
 const Library = ({
   myFilm: { myFilms, filteredMyFilms, searchingTerm, loading },
   getMyFilms,
-  getCategories,
   getFilms,
 }) => {
   useEffect(() => {
     getMyFilms();
-    getCategories();
     getFilms();
-  }, [getMyFilms, getFilms, getCategories]);
+  }, [getMyFilms, getFilms]);
 
   return (
     <Fragment>
@@ -56,6 +53,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getMyFilms,
-  getCategories,
   getFilms,
 })(Library);

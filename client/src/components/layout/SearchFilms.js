@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 // Material-UI Elements
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import BackspaceIcon from "@material-ui/icons/Backspace";
 
 const SearchFilms = ({
   location,
@@ -21,7 +22,6 @@ const SearchFilms = ({
     else if (location === "watchlist" || location === "library")
       searchInMyFilms(inputText);
   }, [inputText]);
-
   useEffect(() => {
     setInputText(myFilmSearchingTerm);
   }, [myFilmSearchingTerm]);
@@ -51,7 +51,7 @@ const SearchFilms = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.searchInput}>
+    <div className={classes.searchInput} style={{ position: "relative" }}>
       <TextField
         variant="outlined"
         placeholder="Search for anything"
@@ -65,6 +65,23 @@ const SearchFilms = ({
           shrink: true,
         }}
       />
+      {inputText.length > 0 ? (
+        <span
+          style={{
+            position: "absolute",
+            top: ".45rem",
+            right: ".4rem",
+            cursor: "pointer",
+          }}
+          onClick={(e) => {
+            setInputText("");
+          }}
+        >
+          <BackspaceIcon />
+        </span>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

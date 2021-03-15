@@ -1,8 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
+import { getCategories } from "../../actions/category";
 // Material-UI elements
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -36,7 +37,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
+const NavBar = ({
+  auth: { loading, isAuthenticated },
+  logout,
+  getCategories,
+}) => {
+  useEffect(() => {
+    getCategories();
+  }, [getCategories]);
+
   const classes = useStyles();
 
   const authLinks = (
@@ -139,9 +148,10 @@ const NavBar = ({ auth: { loading, isAuthenticated }, logout }) => {
 NavBar.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  getCategories: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-export default connect(mapStateToProps, { logout })(NavBar);
+export default connect(mapStateToProps, { logout, getCategories })(NavBar);

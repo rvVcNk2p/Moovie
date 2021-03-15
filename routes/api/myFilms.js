@@ -65,8 +65,8 @@ router.post('/', auth, async (req, res) => {
           userId,
           filmId,
           note: null,
-          isAlreadySeen: false,
-          isNeedItToWatch: true,
+          isAlreadySeen,
+          isNeedItToWatch,
           rating: null,
         });
         const newlyCreatedFilm = await newFilm.save().then((doc) => {

@@ -61,7 +61,7 @@ export const deleteMyFilm = (_id) => async (dispatch) => {
   }
 };
 
-export const addFilmToWatchList = (filmId) => async (dispatch) => {
+export const addFilmToList = (filmId, listName) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -69,7 +69,15 @@ export const addFilmToWatchList = (filmId) => async (dispatch) => {
       },
     };
 
-    const res = await axios.post("/api/my-films", { filmId }, config);
+    const res = await axios.post(
+      "/api/my-films",
+      {
+        filmId,
+        isAlreadySeen: listName === "library",
+        isNeedItToWatch: listName === "watchlist",
+      },
+      config
+    );
 
     dispatch({
       type: CREATE_MY_FILM,

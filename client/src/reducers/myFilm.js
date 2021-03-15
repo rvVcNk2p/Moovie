@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
     case CREATE_MY_FILM:
       return {
         ...state,
-        myFilms: [payload, ...state.myFilms],
+        myFilms: [...state.myFilms, payload],
         loading: false,
       };
     case WATCH_FILM:
