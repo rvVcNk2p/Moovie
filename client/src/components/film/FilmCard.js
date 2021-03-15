@@ -19,7 +19,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Popover from "@material-ui/core/Popover";
+import Tooltip from "@material-ui/core/Tooltip";
 // Material-UI Icons
 import QueueIcon from "@material-ui/icons/Queue";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
@@ -45,6 +45,14 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     padding: 0,
   },
+  infoBar: {
+    color: "white",
+    background: "#43a047",
+    padding: "5px",
+    borderRadius: "10px",
+    textAlign: "center",
+    width: "70%",
+  },
 });
 
 const FilmCard = ({
@@ -65,6 +73,49 @@ const FilmCard = ({
 }) => {
   const classes = useStyles();
 
+  const alreadyAdded = (_id) => {
+    let founded = { isAlreadySeen: false, isNeedItToWatch: false };
+    myFilms.forEach((myFilm) => {
+      if (_id === myFilm.filmId._id) {
+        founded.isAlreadySeen = myFilm.isAlreadySeen;
+        founded.isNeedItToWatch = myFilm.isNeedItToWatch;
+      }
+    });
+    if (founded.isAlreadySeen)
+      return <p className={classes.infoBar}>IN LIBRARY</p>;
+    else if (founded.isNeedItToWatch)
+      return (
+        <p className={classes.infoBar} style={{ backgroundColor: "#ef6c00" }}>
+          IN WATCHLIST
+        </p>
+      );
+    else
+      return (
+        <Fragment>
+          <Tooltip title="Add to Library" placement="right">
+            <IconButton
+              aria-label="add-to-library"
+              onClick={(e) => {
+                if (isAuthenticated) addFilmToList(_id, "library");
+              }}
+            >
+              <AddToQueueIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Add to Watchlist" placement="right">
+            <IconButton
+              aria-label="add-to-watchlist"
+              onClick={(e) => {
+                if (isAuthenticated) addFilmToList(_id, "watchlist");
+              }}
+            >
+              <QueueIcon />
+            </IconButton>
+          </Tooltip>
+        </Fragment>
+      );
+  };
+
   const libraryCardAcions = (
     <Fragment>
       <Box component="div">
@@ -74,30 +125,40 @@ const FilmCard = ({
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-
-        <IconButton
-          aria-label="unwatch-film"
-          onClick={() => unWatchFilm(myFilmId)}
-        >
-          <UpdateIcon />
-        </IconButton>
+        <Tooltip title="Move to Watchlist" placement="right">
+          <IconButton
+            aria-label="unwatch-film"
+            onClick={() => unWatchFilm(myFilmId)}
+          >
+            <UpdateIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
-      <IconButton aria-label="delete" onClick={() => deleteMyFilm(myFilmId)}>
-        <DeleteIcon />
-      </IconButton>
+      <Tooltip title="Delete from Library" placement="right">
+        <IconButton aria-label="delete" onClick={() => deleteMyFilm(myFilmId)}>
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
     </Fragment>
   );
 
   const wachlistCardAcions = (
     <Fragment>
       <Box component="div">
-        <IconButton aria-label="watch-film" onClick={() => watchFilm(myFilmId)}>
-          <AddToQueueIcon />
-        </IconButton>
+        <Tooltip title="Move to Library" placement="right">
+          <IconButton
+            aria-label="watch-film"
+            onClick={() => watchFilm(myFilmId)}
+          >
+            <AddToQueueIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
-      <IconButton aria-label="delete" onClick={() => deleteMyFilm(myFilmId)}>
-        <DeleteIcon />
-      </IconButton>
+      <Tooltip title="Delete from Watchlist" placement="right">
+        <IconButton aria-label="delete" onClick={() => deleteMyFilm(myFilmId)}>
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
     </Fragment>
   );
 
@@ -111,22 +172,7 @@ const FilmCard = ({
         alignItems="center"
         width="100%"
       >
-        <IconButton
-          aria-label="add-to-library"
-          onClick={(e) => {
-            if (isAuthenticated) addFilmToList(_id, "library");
-          }}
-        >
-          <AddToQueueIcon />
-        </IconButton>
-        <IconButton
-          aria-label="add-to-watchlist"
-          onClick={(e) => {
-            if (isAuthenticated) addFilmToList(_id, "watchlist");
-          }}
-        >
-          <QueueIcon />
-        </IconButton>
+        {isAuthenticated ? alreadyAdded(_id) : ""}
         <Link to={`/edit-film/${_id}`}>
           <IconButton aria-label="edit" onClick={(e) => selectFilm(_id)}>
             <EditIcon />
@@ -135,14 +181,6 @@ const FilmCard = ({
       </Box>
     </Fragment>
   );
-
-  // const alreadyAdded = (_id) => {
-  //   let founded = false;
-  //   myFilms.forEach((myFilm) => {
-  //     if (_id === myFilm.filmId._id) founded = true;
-  //   });
-  //   return founded ? "+" : "-";
-  // };
 
   return (
     <Grid item xs={6} sm={4} md={3} key={_id}>
@@ -169,14 +207,7 @@ const FilmCard = ({
                 );
               })}
             </Box>
-            <Box component="div">
-              {/* {note !== null && note} */}
-              {/* {typeOfList === "films" && isAuthenticated ? (
-                <p>{alreadyAdded(_id)}</p>
-              ) : (
-                ""
-              )} */}
-            </Box>
+            <Box component="div">{/* {note !== null && note} */}</Box>
           </CardContent>
         </Box>
         {isAuthenticated && (

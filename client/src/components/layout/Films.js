@@ -33,7 +33,11 @@ const Films = ({
         <SearchFilms location="films" />
         {isAuthenticated && (
           <Link to="/create-film" style={{ textDecoration: "none" }}>
-            <Button variant="contained" color="primary" endIcon={<AddIcon />}>
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "#43a047", color: "white" }}
+              endIcon={<AddIcon />}
+            >
               New film
             </Button>
           </Link>

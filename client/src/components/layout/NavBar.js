@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  appBar: {
+    backgroundColor: "black",
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -133,7 +136,7 @@ const NavBar = ({
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Moovie.io
