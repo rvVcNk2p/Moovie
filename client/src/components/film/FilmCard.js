@@ -71,7 +71,7 @@ const FilmCard = ({
   unWatchFilm,
   deleteMyFilm,
   selectFilm,
-  isAuthenticated,
+  auth: { isAuthenticated, user },
 }) => {
   const classes = useStyles();
 
@@ -175,11 +175,13 @@ const FilmCard = ({
         width="100%"
       >
         {isAuthenticated ? alreadyAdded(_id) : ""}
-        <Link to={`/edit-film/${_id}`}>
-          <IconButton aria-label="edit" onClick={(e) => selectFilm(_id)}>
-            <EditIcon />
-          </IconButton>
-        </Link>
+        {user && user.isAdmin && (
+          <Link to={`/edit-film/${_id}`}>
+            <IconButton aria-label="edit" onClick={(e) => selectFilm(_id)}>
+              <EditIcon />
+            </IconButton>
+          </Link>
+        )}
       </Box>
     </Fragment>
   );
@@ -234,12 +236,12 @@ FilmCard.propTypes = {
   unWatchFilm: PropTypes.func.isRequired,
   deleteMyFilm: PropTypes.func.isRequired,
   selectFilm: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
   myFilms: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
   myFilms: state.myFilm.myFilms,
 });
 

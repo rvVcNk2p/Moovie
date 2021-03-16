@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = ({
-  auth: { loading, isAuthenticated },
+  auth: { loading, isAuthenticated, user },
   logout,
   getCategories,
 }) => {
@@ -80,15 +80,19 @@ const NavBar = ({
           <span className={classes.itemName}>Films</span>
         </Button>
       </Link>
-      <Link to="/create-category" style={{ textDecoration: "none" }}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          startIcon={<CategoryIcon style={{ color: "white" }} />}
-        >
-          <span className={classes.itemName}>Categories</span>
-        </Button>
-      </Link>
+
+      {user && user.isAdmin && (
+        <Link to="/create-category" style={{ textDecoration: "none" }}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            startIcon={<CategoryIcon style={{ color: "white" }} />}
+          >
+            <span className={classes.itemName}>Categories</span>
+          </Button>
+        </Link>
+      )}
+
       <Link to="/films" style={{ textDecoration: "none" }}>
         <Button
           style={{ color: "white" }}

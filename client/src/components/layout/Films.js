@@ -16,7 +16,7 @@ const Films = ({
   film: { films, filteredFilms, searchingTerm },
   getFilms,
   getMyFilms,
-  isAuthenticated,
+  auth: { isAuthenticated, user },
 }) => {
   useEffect(() => {
     getMyFilms();
@@ -34,7 +34,7 @@ const Films = ({
       >
         <h1>Films</h1>
         <SearchFilms location="films" />
-        {isAuthenticated && (
+        {isAuthenticated && user && user.isAdmin && (
           <Link to="/create-film" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
@@ -57,14 +57,14 @@ const Films = ({
 Films.propTypes = {
   getFilms: PropTypes.func.isRequired,
   filteredFilms: PropTypes.array,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
   searchingTerm: PropTypes.string,
   getMyFilms: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   film: state.film,
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {

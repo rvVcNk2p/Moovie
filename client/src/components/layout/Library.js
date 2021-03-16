@@ -40,7 +40,6 @@ const Library = ({
 
 Library.propTypes = {
   myFilm: PropTypes.object.isRequired,
-  getFilms: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
