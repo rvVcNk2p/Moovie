@@ -7,6 +7,7 @@ import {
   unWatchFilm,
   addFilmToList,
   deleteMyFilm,
+  selectMyFilm,
 } from "../../actions/myFilm";
 import { selectFilm } from "../../actions/film";
 import { Link } from "react-router-dom";
@@ -24,11 +25,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import QueueIcon from "@material-ui/icons/Queue";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 import UpdateIcon from "@material-ui/icons/Update";
+import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles({
   content: {
@@ -71,6 +72,7 @@ const FilmCard = ({
   unWatchFilm,
   deleteMyFilm,
   selectFilm,
+  selectMyFilm,
   auth: { isAuthenticated, user },
 }) => {
   const classes = useStyles();
@@ -134,6 +136,14 @@ const FilmCard = ({
           >
             <UpdateIcon />
           </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Edit selected myFilm" placement="right">
+          <Link to={`/edit-my-film/${myFilmId}`}>
+            <IconButton aria-label="edit-film">
+              <EditIcon />
+            </IconButton>
+          </Link>
         </Tooltip>
       </Box>
       <Tooltip title="Delete from Library" placement="right">
@@ -238,6 +248,7 @@ FilmCard.propTypes = {
   selectFilm: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   myFilms: PropTypes.array.isRequired,
+  selectMyFilm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -251,4 +262,5 @@ export default connect(mapStateToProps, {
   unWatchFilm,
   deleteMyFilm,
   selectFilm,
+  selectMyFilm,
 })(FilmCard);

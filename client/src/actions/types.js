@@ -22,6 +22,7 @@ export const UNWATCH_FILM_ERROR = "UNWATCH_FILM_ERROR";
 export const DELETE_MY_FILM = "DELETE_MY_FILM";
 export const DELETE_MY_FILM_ERROR = "DELETE_MY_FILM_ERROR";
 export const SEARCH_MY_FILMS = "SEARCH_MY_FILMS";
+export const SELECT_MY_FILM = "SELECT_MY_FILM";
 // Films
 export const GET_FILMS = "GET_FILMS";
 export const GET_FILMS_ERROR = "GET_FILMS_ERROR";

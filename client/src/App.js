@@ -11,6 +11,7 @@ import Library from "./components/layout/Library";
 import Watchlist from "./components/layout/Watchlist";
 import CreateFilm from "./components/layout/CreateFilm";
 import EditFilm from "./components/layout/EditFilm";
+import EditMyFilm from "./components/layout/EditMyFilm";
 import Category from "./components/layout/Category";
 // Redux
 import { Provider } from "react-redux";
@@ -48,6 +49,7 @@ const App = () => {
               <Route exact path="/watchlist" component={Watchlist} />
               <Route exact path="/create-film" component={CreateFilm} />
               <Route exact path="/edit-film/:id" component={EditFilm} />
+              <Route exact path="/edit-my-film/:id" component={EditMyFilm} />
               <Route exact path="/create-category" component={Category} />
             </Switch>
           </section>

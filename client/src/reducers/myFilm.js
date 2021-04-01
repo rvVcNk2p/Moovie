@@ -10,12 +10,14 @@ import {
   DELETE_MY_FILM,
   DELETE_MY_FILM_ERROR,
   SEARCH_MY_FILMS,
+  SELECT_MY_FILM,
 } from "../actions/types";
 
 const initialState = {
   myFilms: [],
   filteredMyFilms: [],
   searchingTerm: "",
+  selectedMyFilm: {},
   loading: true,
 };
 
@@ -68,6 +70,11 @@ export default function (state = initialState, action) {
           if (isName || isCategory) return myfilm;
         }),
         searchingTerm: payload,
+      };
+    case SELECT_MY_FILM:
+      return {
+        ...state,
+        selectedMyFilm: payload,
       };
     case GET_MY_FILMS_ERROR:
     case DELETE_MY_FILM_ERROR:

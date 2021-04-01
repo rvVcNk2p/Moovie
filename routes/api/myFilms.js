@@ -23,6 +23,27 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+//  @route  GET api/my-films/:id
+//  @desc   Get Film by ID
+//  @access Private
+router.get('/:_id', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const _id = req.params._id;
+    const userFilm = await MyFilm.find({ userId, _id }).populate({
+      path: 'filmId',
+      populate: { path: 'categories' },
+    });
+    res.json({
+      myFilm: userFilm[0],
+      msg: `Film of User with ID: ${userId}, by ID: ${_id}`,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 //  @route  POST api/my-films
 //  @desc   Creat and Update a (my-film) document
 //  @access Private
@@ -50,7 +71,7 @@ router.post('/', auth, async (req, res) => {
         populate: { path: 'categories' },
       });
       res.json({
-        myfilm: updatedFilm,
+        myFilm: updatedFilm,
         msg: 'Selected film was successfully updated.',
       });
     } else {

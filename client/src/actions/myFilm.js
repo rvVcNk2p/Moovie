@@ -10,6 +10,7 @@ import {
   DELETE_MY_FILM,
   DELETE_MY_FILM_ERROR,
   SEARCH_MY_FILMS,
+  SELECT_MY_FILM,
 } from "./types";
 import { setAlert } from "./alert";
 import axios from "axios";
@@ -96,6 +97,7 @@ export const addFilmToList = (filmId, listName) => async (dispatch) => {
     });
   }
 };
+
 export const watchFilm = (_id) => async (dispatch) => {
   try {
     const config = {
@@ -157,4 +159,46 @@ export const searchInMyFilms = (inputText) => (dispatch) => {
     type: SEARCH_MY_FILMS,
     payload: inputText,
   });
+};
+
+export const updateMyFilm = (updatedMyFilm) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const res = await axios.post(
+      "/api/my-films/",
+      { ...updatedMyFilm },
+      config
+    );
+    dispatch(setAlert(res.data.msg, "success"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        dispatch(setAlert(error.msg, "error"));
+      });
+    }
+  }
+};
+
+export const selectMyFilm = (myFilmId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/my-films/${myFilmId}`);
+    dispatch({
+      type: SELECT_MY_FILM,
+      payload: res.data.myFilm,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        dispatch(setAlert(error.msg, "error"));
+      });
+    }
+    // TODO
+  }
 };
