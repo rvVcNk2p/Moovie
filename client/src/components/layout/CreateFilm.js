@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { addFilm } from "../../actions/film";
-import FilmCard from "../film/FilmCard";
+import sendFilmQuery from "../../utils/helper";
+import _ from "lodash";
 // Material-UI elements
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -21,7 +21,6 @@ import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
 
 const CreateFilm = ({ createdCategories, addFilm }) => {
   const [formData, setFormData] = useState({
@@ -31,9 +30,18 @@ const CreateFilm = ({ createdCategories, addFilm }) => {
   });
 
   const { name, coverURI, categories } = formData;
+  const delayedFilmQuery = useRef(
+    _.throttle(async (filmName) => {
+      const possibleFilms = await sendFilmQuery(filmName);
+      if (possibleFilms) {
+        console.log(possibleFilms);
+      }
+    }, 500)
+  ).current;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === "name") delayedFilmQuery(e.target.value);
   };
 
   const onSubmit = (e) => {
